@@ -7,3 +7,57 @@
 .navbar-item{
     margin: 10px;
 }
+
+.logo{
+    display: flex;
+    justify-content: center;
+}
+
+.input-bar{
+    display: flex;
+    z-index: 3;
+    justify-content: center;
+    height: 44px;
+    background: #fff;
+    border: 1px solid #dfe1e5;
+    box-shadow: none;
+    border-radius: 24px;
+    margin: 0 auto;
+    width: auto;
+    width: calc(632px + 6px);
+    max-width: 584px;
+}
+
+.input-button{
+    background-color:  #f8f9fa;
+    border: 1px solid #f8f9fa;
+    border-radius: 4px;
+    color: #3c4043;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    margin: 11px 4px;
+    padding: 0 16px;
+    line-height: 27px;
+    height: 36px;
+    min-width: 54px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+a:link{
+    color: black;
+    text-decoration: none;
+}
+
+a:visited{
+    color: black;
+}
+
+a:hover{
+    color: black;
+}
+
+a:active{
+    color: black;
+}
