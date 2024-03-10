@@ -1,19 +1,20 @@
-.navbar{
+.navbar {
     list-style-type: none;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
 }
-.navbar-item{
+
+.navbar-item {
     margin: 10px;
 }
 
-.logo{
+.logo {
     display: flex;
     justify-content: center;
 }
 
-.input-bar{
+.input-bar {
     display: flex;
     z-index: 3;
     justify-content: center;
@@ -28,8 +29,8 @@
     max-width: 584px;
 }
 
-.input-button{
-    background-color:  #f8f9fa;
+.input-button {
+    background-color: #f8f9fa;
     border: 1px solid #f8f9fa;
     border-radius: 4px;
     color: #3c4043;
@@ -45,19 +46,67 @@
     user-select: none;
 }
 
-a:link{
+a:link {
     color: black;
     text-decoration: none;
 }
 
-a:visited{
+a:visited {
     color: black;
 }
 
-a:hover{
+a:hover {
     color: black;
 }
 
-a:active{
+a:active {
     color: black;
+}
+
+.advanced {
+    color: #d93e25;
+    font-size: 20px;
+    margin: 25px 35px;
+}
+
+.line {
+    border-bottom: 1px solid #ebebeb;
+}
+
+.hs-class {
+    font-size: 16px;
+    color: #333333;
+}
+
+.div-advanced {
+    margin: 50px;
+}
+
+.row-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.left {
+    width: 200px;
+}
+
+.right{
+    width: 385px;
+}
+
+.btn-primary{
+    box-shadow: none;
+    background-color: #4d90fe;
+    border: 1px solid #3079ed;
+    color: #fff;
+}
+
+.btn-div{
+    display: flex;
+    justify-content: flex-end;
+    width: 585px; 
+    margin-top: 50px;
 }
