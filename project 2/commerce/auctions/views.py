@@ -16,10 +16,10 @@ def index(request):
     })
 
 def displayCategory(request):
-    if request.method =="POST":
+    if request.method == "POST":
         categoryFromForm = request.POST['category']
-        category = category.objects.get(categoryName=categoryFromForm)
-        activeListings = Listing.objects.filter(isActive=True, category=Category)
+        category = Category.objects.get(categoryName=categoryFromForm)
+        activeListings = Listing.objects.filter(isActive=True, category=category)
         allCategories = Category.objects.all()
         return render(request, "auctions/index.html",{
             "listings": activeListings,
@@ -36,7 +36,7 @@ def createListing(request):
     else:
         title = request.POST["title"]
         description = request.POST["description"]
-        imageurl = request.POST["imageurl"]
+        imageUrl = request.POST["imageUrl"]
         price = request.POST["price"]
         category = request.POST["category"]
         currentUser = request.user
@@ -44,7 +44,7 @@ def createListing(request):
         newListing = Listing(
             title = title,
             description = description,
-            imageurl = imageurl,
+            imageurl = imageUrl,
             price = float(price),
             category= category,
             owner = currentUser
