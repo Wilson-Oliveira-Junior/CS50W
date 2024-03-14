@@ -1,17 +1,7 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
-    <form action="{%url 'displayCategory' %}" method="POST" class="my-3">
-        {% csrf_token %}
-        <label for="category">Choose a category:</label>
-        <select name="category" id="category">
-            {% for cat in categories %}
-                 <option value="{{ cat }}">{{ cat }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit" class="btn btn-warning">Select</button>
-    </form>
+    <h2>Watchlist</h2>
     <div class="row mx-3 align-items-stretch">
     {% for listing in listings %}
     <div class="card mx-2" style="width: 18rem;">
