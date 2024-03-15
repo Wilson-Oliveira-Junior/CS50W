@@ -1,19 +1,85 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Category, Listing
+from .models import User, Category, Listing, Comment, Bid
 
 
 def listing(request, id):
     listingData = Listing.objects.get(pk=id)
     isListingInWatchlist = request.user in listingData.watchlist.all()
+    allComments = Comment.objects.filter(listing=listingData)
+    isOwner = request.user.username == listingData.owner.username
     return render(request, "auctions/listing.html", {
         "listing": listingData,
-        "isListingInWatchlist": isListingInWatchlist
+        "isListingInWatchlist": isListingInWatchlist,
+        "allComments": allComments,
+        "isOwner": isOwner
     })
+
+def closeAuction(request, id):
+    listingData = Listing.objects.get(pk=id)
+    listingData.isActive = False
+    listingData.save()
+    isListingInWatchlist = request.user in listingData.watchlist.all()
+    allComments = Comment.objects.filter(listing=listingData)
+    isOwner = request.user.username == listingData.owner.username
+    return render(request, "auctions/listing.html",{
+        "listing": listingData,
+        "isListingInWatchlist": isListingInWatchlist,
+        "allComments": allComments,
+        "isOwner": isOwner, 
+        "update": True,
+        "message": "Congratulations! Your auction is closed",
+        
+    })
+
+def addBid(request, id):
+    newBid = request.POST['newBid']
+    listingData = Listing.objects.get(pk=id)
+    isListingInWatchlist = request.user in listingData.watchlist.all()
+    allComments = Comment.objects.filter(listing=listingData)
+    isOwner = request.user.username == listingData.owner.username
+    if newBid>listingData.price.bid:
+        updateBid = Bid(user=request.user, bid=newBid)
+        updateBid.save()
+        listingData.price = updateBid
+        listingData.save()
+        return render(request, "auctions/listing.html",{
+            "listing": listingData,
+            "message": "Bid was updated successfully",
+            "update": True,
+            "isListingInWatchlist": isListingInWatchlist,
+            "allComments": allComments,
+            "isOwner": isOwner,
+        })
+    else:
+        return render(request, "auctions/listing.html",{
+            "listing": listingData,
+            "message": "Bid was updated failed",
+            "update": False,
+            "isListingInWatchlist": isListingInWatchlist,
+            "allComments": allComments,
+            "isOwner": isOwner,
+        })
+    
+def addComment(request, id):
+    currentUser = request.user
+    listingData = Listing.objects.get(pk=id)
+    message = request.POST['newComment']
+
+    newComment = Comment(
+        author=currentUser,
+        listing=listingData,
+        message=message
+    )
+
+    newComment.save()
+
+    return HttpResponseRedirect(reverse("listing",args=(id, )))
 
 def watchlist(request):
     currentUser = request.user
@@ -56,29 +122,37 @@ def displayCategory(request):
 
 
 def createListing(request):
-    if request.method == "GET":
-        allCategories = Category.objects.all()
-        return render(request, "auctions/create.html", {
-            "categories":allCategories
-        })
-    else:
+    if request.method == "POST":
         title = request.POST["title"]
         description = request.POST["description"]
         imageUrl = request.POST["imageUrl"]
         price = request.POST["price"]
-        category = request.POST["category"]
+        category_name = request.POST["category"]
         currentUser = request.user
-        categoryData = Category.objects.get(categoryName=category)
-        newListing = Listing(
-            title = title,
-            description = description,
-            imageurl = imageUrl,
-            price = float(price),
-            category= category,
-            owner = currentUser
+        
+        # Retrieve or create the Category object
+        category, _ = Category.objects.get_or_create(categoryName=category_name)
+        
+        # Create the Bid object
+        bid = Bid.objects.create(bid=float(price), user=currentUser)
+        
+        # Create the Listing object and set the Bid object's primary key as the price
+        newListing = Listing.objects.create(
+            title=title,
+            description=description,
+            imageUrl=imageUrl,
+            price_id=bid.id,  # Assign the primary key of the Bid object
+            category=category,
+            owner=currentUser
         )
-        newListing.save()
-        return HttpResponseRedirect(reverse(index))
+        
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        allCategories = Category.objects.all()
+        return render(request, "auctions/create.html", {
+            "categories": allCategories
+        })
+
 
 def login_view(request):
     if request.method == "POST":
