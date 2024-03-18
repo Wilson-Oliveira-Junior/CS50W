@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
+
 from .models import User, Category, Listing, Comment, Bid
 
 
@@ -43,12 +44,15 @@ def addBid(request, id):
     isListingInWatchlist = request.user in listingData.watchlist.all()
     allComments = Comment.objects.filter(listing=listingData)
     isOwner = request.user.username == listingData.owner.username
-    if newBid>listingData.price.bid:
-        updateBid = Bid(user=request.user, bid=newBid)
-        updateBid.save()
+
+    current_bid = listingData.price
+    current_amount = current_bid.amount if current_bid else 0
+
+    if float(newBid) > current_amount:
+        updateBid = Bid.objects.create(user=request.user, amount=newBid)
         listingData.price = updateBid
         listingData.save()
-        return render(request, "auctions/listing.html",{
+        return render(request, "auctions/listing.html", {
             "listing": listingData,
             "message": "Bid was updated successfully",
             "update": True,
@@ -57,14 +61,17 @@ def addBid(request, id):
             "isOwner": isOwner,
         })
     else:
-        return render(request, "auctions/listing.html",{
+        return render(request, "auctions/listing.html", {
             "listing": listingData,
-            "message": "Bid was updated failed",
+            "message": "Bid must be higher than the current bid",
             "update": False,
             "isListingInWatchlist": isListingInWatchlist,
             "allComments": allComments,
             "isOwner": isOwner,
         })
+
+
+
     
 def addComment(request, id):
     currentUser = request.user
@@ -129,29 +136,27 @@ def createListing(request):
         price = request.POST["price"]
         category_name = request.POST["category"]
         currentUser = request.user
-        
-        # Retrieve or create the Category object
+
         category, _ = Category.objects.get_or_create(categoryName=category_name)
-        
-        # Create the Bid object
-        bid = Bid.objects.create(bid=float(price), user=currentUser)
-        
-        # Create the Listing object and set the Bid object's primary key as the price
+
+        bid = Bid.objects.create(amount=float(price), user=currentUser)
+
         newListing = Listing.objects.create(
             title=title,
             description=description,
             imageUrl=imageUrl,
-            price_id=bid.id,  # Assign the primary key of the Bid object
+            price=bid,  
             category=category,
             owner=currentUser
         )
-        
+
         return HttpResponseRedirect(reverse("index"))
     else:
         allCategories = Category.objects.all()
         return render(request, "auctions/create.html", {
             "categories": allCategories
         })
+
 
 
 def login_view(request):

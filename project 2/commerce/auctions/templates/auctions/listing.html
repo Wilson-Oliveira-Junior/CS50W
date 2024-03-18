@@ -47,40 +47,41 @@
     <img src="{{ listing.imageUrl }}" alt="{{ listing.title }}" height="400px">
     <p>{{ listing.description }}</p>
     <p>Owner: {{ listing.owner }}</p>
-    <h6>฿ {{ listing.price.bid }}</h6>
+    <h6>฿ {{ listing.price.amount }}</h6>
     {% if user.is_authenticated %}
     <form action="{% url 'addBid' id=listing.id %}" method="POST">
         {%csrf_token%}
         <div class="form-group">
             <label for="price">Add Bid</label>
-            <input type="number" min="0" name="price" placeholder="Add new Bid">
+            <input type="number" min="0" name="newBid" placeholder="Add new Bid"> 
             <button type="submit" class="btn btn-warning">Add</button>
         </div>
     </form>
-    {% endif %}
+{% endif %}
+
     <p>{{ message }}</p>
 
-        <h2>Comments</h2>
+            <h2>Comments</h2>
         </br>
         {% if user.is_authenticated %}
             <form action="{% url 'addComment' id=listing.id %}" method="POST">
                 {%csrf_token%}
                 <div class="form-group">
-                    <label for="price">Add comment</label>
-                    <input type="number" name="price" class="form-control" id="price" placeholder="Price">
+                    <label for="newComment">Add comment</label>
+                    <input type="text" name="newComment" class="form-control" id="newComment" placeholder="Add New Comment">
                     <button type="submit" class="btn btn-warning">Add</button>
                 </div>
-                <input type="text" name="newComment" placehold="Add New Comment">
             </form>
         {% endif %}
         </br>
         <ul class="list-group">
             {% for comment in allComments %}
-                    <li class="list-group-item">
-                        {{ comment.message }}
+                <li class="list-group-item">
+                    {{ comment.message }}
                     </br>
-                        <p>Posted by: <strong>{{ comment.author }}</strong></p>
-                    </li>
+                    <p>Posted by: <strong>{{ comment.author }}</strong></p>
+                    <p>Price: {{ comment.listing.price.amount }}</p>
+                </li>
             {% endfor %}
         </ul>
 {% endblock %}
