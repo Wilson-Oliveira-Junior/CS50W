@@ -14,3 +14,7 @@ Este é meu segundo projeto onde mostro algumas de minhas habilidades e alguns s
 [search](https://github.com/Wilson-Oliveira-Junior/CS50W/tree/main/project%200/search)
 ## Problem set 1
 [wiki](https://github.com/Wilson-Oliveira-Junior/CS50W/tree/main/project%201/wiki_project)
+## Problem set 2
+[auctions](https://github.com/Wilson-Oliveira-Junior/CS50W/tree/main/project%202/commerce)
+## Problem set 3
+[mail](https://github.com/Wilson-Oliveira-Junior/CS50W/tree/main/project%203/mail)
