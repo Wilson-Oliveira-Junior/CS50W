@@ -2,10 +2,20 @@ textarea {
     min-height: 400px;
 }
 
-.read{
-    background-color: #d7d7d7;
+hr { 
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+  } 
+
+.archive {
+    initial-value: Archive;
 }
 
-.unread{
-    background-color: white;
+.unarchive {
+    initial-value: Unarchive;
 }
