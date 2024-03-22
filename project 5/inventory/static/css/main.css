@@ -23,7 +23,7 @@ html {
 }
 
 #logo {
-  background-image: linear-gradient(#337500, #43648A);
+  background-image: linear-gradient(#1404fa, #000000);
   font-family: Montserrat, Helvetica, Arial, sans-serif;
   font-size: 2rem;
   font-weight: 600;
@@ -53,7 +53,7 @@ html {
 
 #app button {
   color: white;
-  background: linear-gradient(90deg, #337500 -25.6%, rgba(0, 26, 255, 0.5) 125.4%);
+  background: linear-gradient(90deg, #1404fa -25.6%, rgba(0, 26, 255, 0.5) 125.4%);
   border: none;
   outline: none;
   border-radius: 12px;
