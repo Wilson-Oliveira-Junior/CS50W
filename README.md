@@ -18,3 +18,8 @@ Este é meu segundo projeto onde mostro algumas de minhas habilidades e alguns s
 [auctions](https://github.com/Wilson-Oliveira-Junior/CS50W/tree/main/project%202/commerce)
 ## Problem set 3
 [mail](https://github.com/Wilson-Oliveira-Junior/CS50W/tree/main/project%203/mail)
+## Problem set 4
+[network](https://github.com/Wilson-Oliveira-Junior/CS50W/tree/main/project%204/project4/network)
+## Problem set final
+[final](https://github.com/Wilson-Oliveira-Junior/CS50W/tree/main/project%205/Cantinhogostoso)
+
